@@ -5,7 +5,7 @@ A machine learning project built with linear regression to predict song populari
 **Why this project?** Fresh off my linear regression module in AI/ML training, I wanted a fun, real-world application: What audio traits make a song a hit? (Spoiler: High valence + danceability = chart-topper.) This showcases end-to-end ML skills: data prep, modeling, evaluation, and deployment—perfect for aspiring AI Engineers shipping MVPs solo.
 
 🚀 **Live Demo**: [Coming soon—deployed on Streamlit Cloud](https://your-app-link.streamlit.app)  
-📊 **Dataset**: [Kaggle Spotify Songs (114K tracks)](https://www.kaggle.com/datasets/whenamancodes/ultimate-spotify-tracks-db)
+📊 **Dataset**: [Kaggle Spotify Music Dataset](https://www.kaggle.com/datasets/solomonameh/spotify-music-dataset)
 
 ## Features
 - **Predict Popularity**: Input audio features (e.g., energy=0.8, tempo=120) and get a 0-100 score via linear regression model (R² ~0.62).
@@ -25,7 +25,7 @@ A machine learning project built with linear regression to predict song populari
 1. **Clone the Repo**:
    ```
    git clone https://github.com/div-ops123/Spotify-Popularity-Predictor.git
-   cd spotify-popularity-predictor
+   cd Spotify-Popularity-Predictor
    ```
 
 2. **Virtual Environment**:
@@ -64,19 +64,35 @@ spotify-popularity-predictor/
 ├── data/                  # Raw/processed datasets
 │   ├── raw/               # Original Kaggle CSV
 │   └── processed/         # Cleaned train/test CSVs
-├── notebooks/             # Exploratory analysis & modeling
-│   ├── eda.ipynb          # Data insights
-│   └── modeling.ipynb     # Training & eval
-├── src/                   # Core scripts
-│   ├── data_prep.py       # Cleaning & feature eng
-│   ├── model.py           # Training & prediction
-│   └── app.py             # Streamlit UI
+|
+├── notebooks/
+│   ├── 01_data_exploration.ipynb         # quick look at columns, data types, distributions, missing values
+│   ├── 02_data_preprocessing.ipynb       # experiments with cleaning (e.g., outlier removal, scaling)
+│   ├── 03_modeling.ipynb                 # test linear regression and visualize results
+│   ├── 04_evaluation_and_iteration.ipynb # refine and compare models
+│
+├── src/
+│   ├── data/  # Handles all data-related operations.
+│   │   ├── acquire_data.py      # loads your CSV files, merges datasets, validates structure
+│   │   ├── preprocess_data.py   # cleans, encodes, scales, splits, and saves clean datasets
+│   └── app.py                   # Streamlit UI
+│   │
+│   ├── models/
+│   │   ├── train_model.py    # trains the regression model, saves model artifacts (e.g., .pkl file)
+│   │   ├── evaluate_model.py # loads trained model, evaluates on test set, prints metrics (R², MAE, etc.)
+│   │
+│   ├── utils/
+│       ├── helpers.py     # utility functions for logging, configuration reading, or reusable plotting
+│
+├── configs/
+│   ├── config.yaml        # stores dataset paths, column names, model hyperparameters, etc.
 ├── tests/                 # Unit/integration tests
 │   └── test_model.py
 ├── docs/                  # Diagrams, notes
-├── Dockerfile             # Containerization
-├── requirements.txt       # Dependencies
-└── README.md              # You're here!
+├── Dockerfile 
+├── requirements.txt  
+└── README.md
+└── main.py    # Entry point for production pipeline. Calls functions from /src/ to run the entire process (data → model → results).
 ```
 
 ## Key Learnings & Metrics
@@ -84,7 +100,7 @@ spotify-popularity-predictor/
 - **Challenges Overcome**: Handled skewed popularity dist with log-transform; used DS&A (e.g., sorting correlations) for feature selection.
 - **Next Steps**: Add RAG for lyrics analysis or ensemble with random forests.
 
-Built in 10 days as a solo MVP—leveraging AI tools for 10x speed while architecting for scalability. Follow my journey on [LinkedIn](https://linkedin.com/in/YOUR_PROFILE)!
+Built Follow my journey on [LinkedIn](https://linkedin.com/in/divine-nwadigo1)!
 
 ## Contributing & Feedback
 Love music + ML? Fork, PR, or DM ideas (e.g., genre-specific models).

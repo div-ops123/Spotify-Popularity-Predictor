@@ -1,0 +1,10 @@
+DEBUG_MODE: True
+
+data:
+  raw_path: "data/raw/SpotifyFeatures.csv"
+  processed_path: "data/processed/spotify_clean.csv"
+
+features:
+  numerical: ["danceability", "energy", "tempo", "valence", "loudness",
+              "speechiness", "acousticness", "instrumentalness", "liveness", "duration_ms"]
+  target: "popularity"
