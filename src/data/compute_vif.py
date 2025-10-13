@@ -160,3 +160,17 @@ def compute_and_print_vif_from_config(exclude: List[str] = None) -> pd.DataFrame
     vif_df = calculate_vif(df, numeric)
     print(vif_df.to_string(index=False))
     return vif_df
+
+
+# TODO:
+# 1. Tests & edge cases (quick checklist)
+
+# Write unit tests (pytest) for these cases:
+
+# Empty DataFrame → expect ValueError.
+
+# Non-existent features → expect ValueError.
+
+# Single numeric feature → VIF cannot be computed meaningfully (function should either return empty DataFrame or handle gracefully).
+
+# Perfect multicollinearity (X2 = 2*X1) → VIF becomes large or infinite; ensure code handles np.inf.

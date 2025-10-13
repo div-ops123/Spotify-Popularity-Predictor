@@ -20,7 +20,7 @@
 
 #### Phase 2: Data Acquisition & Preparation (1-2 Days)
 - [ ✅ ] Download dataset: Kaggle "Spotify Music Dataset". Save to `data/raw/`.
-- [ ] Load & inspect: Use pandas in notebook—`df.info()`, `df.describe()`, check for nulls/duplicates.
+- [ ✅ ] Load & inspect: Use pandas in notebook—`df.info()`, `df.describe()`, check for nulls/duplicates.
 - [ ] Clean data: Handle missing (drop/fill), outliers (e.g., clip duration >10min), encode categoricals (pd.get_dummies for key/mode).
 - [ ] Feature engineering: Scale numerics (StandardScaler), create interactions (e.g., energy * valence), split train/test (80/20, stratify on popularity bins).
 - [ ] Optional: API pull—Use spotipy to fetch 50 recent tracks; merge with main dataset.

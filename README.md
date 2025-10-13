@@ -30,7 +30,7 @@ A machine learning project built with linear regression to predict song populari
 
 2. **Virtual Environment**:
    ```
-   python -m venv venv
+   python -m venv .venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
@@ -39,17 +39,25 @@ A machine learning project built with linear regression to predict song populari
    pip install -r requirements.txt
    ```
 
-4. **Spotify API (Optional)**:
+4. **Run the Data Acquisition Script**
+
+   ```bash
+   python -m src.data.acquire_data
+   ```
+
+   This will:
+
+   * Load raw Spotify datasets (low & high popularity)
+   * Combine them into one cleaned dataset
+   * Save the merged output in your processed data directory
+
+
+
+
+**Spotify API (Optional)**:
    - Get credentials from [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/).
    - Add to `.env`: `SPOTIFY_CLIENT_ID=your_id` and `SPOTIFY_CLIENT_SECRET=your_secret`.
 
-5. **Download Dataset**:
-   - Grab `Spotify Songs Dataset.csv` from Kaggle and place in `data/raw/`.
-
-6. **Run Locally**:
-   - EDA: `jupyter notebook notebooks/eda.ipynb`
-   - Train Model: `python src/train_model.py`
-   - App: `streamlit run src/app.py`
 
 ## Usage
 - **Predict a Song**: In the Streamlit app, tweak sliders for features → Hit "Predict" → See score + viz.
@@ -67,7 +75,7 @@ spotify-popularity-predictor/
 |
 ├── notebooks/
 │   ├── 01_data_exploration.ipynb         # quick look at columns, data types, distributions, missing values
-│   ├── 02_data_preprocessing.ipynb       # experiments with cleaning (e.g., outlier removal, scaling)
+│   ├── 02_eda.ipynb       # experiments with cleaning (e.g., outlier removal, scaling)
 │   ├── 03_modeling.ipynb                 # test linear regression and visualize results
 │   ├── 04_evaluation_and_iteration.ipynb # refine and compare models
 │
