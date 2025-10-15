@@ -6,3 +6,36 @@ data:
     high: "data/raw/high_popularity_spotify_data.csv"
   processed:
     combined: "data/processed/spotify_combined.csv"
+    clean: "data/processed/spotify_clean.csv"
+
+
+features:
+  - danceability
+  - energy
+  - speechiness
+  - acousticness
+  - instrumentalness
+  - valence
+  - loudness_scaled
+  - tempo_scaled
+  - liveness
+  - duration_ms_log_scaled
+  - mode
+  - song_age_scaled
+  - key_1.0
+  - key_2.0
+  - key_3.0
+  - key_4.0
+  - key_5.0
+  - key_6.0
+  - key_7.0
+  - key_8.0
+  - key_9.0
+  - key_10.0
+  - key_11.0
+  - time_signature_3.0
+  - time_signature_4.0
+  - time_signature_5.0
+
+
+target: "track_popularity"
