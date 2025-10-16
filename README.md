@@ -51,6 +51,18 @@ A machine learning project built with linear regression to predict song populari
    * Combine them into one cleaned dataset
    * Save the merged output in your processed data directory
 
+5. preprocessing.py = toolbox (contains helper functions)
+
+preprocess_data.py = chef (uses the tools to clean the full dataset)
+
+```bash
+python src/data/preprocess_data.py
+```
+
+This will:
+
+* Reproduce your full notebook cleaning automatically.
+
 
 
 
