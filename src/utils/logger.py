@@ -9,14 +9,12 @@ Features:
 - Singleton pattern (only one instance per process)
 - Logs to both console and rotating file
 - Auto-creates the logs directory
-- Reads DEBUG_MODE from config.yaml
+- Accepts DEBUG_MODE flag from caller
 """
 
 import logging
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
-
-from src.utils.helper import get_config
 
 
 class Logger:
@@ -28,13 +26,13 @@ class Logger:
 
     Example:
         >>> from src.utils.logger import Logger
-        >>> logger = Logger().get_logger(__name__)
+        >>> logger = Logger(debug=True).get_logger(__name__)
         >>> logger.info("Spotify dataset successfully loaded.")
     """
 
     _instance = None  # Holds the singleton instance
 
-    def __new__(cls):
+    def __new__(cls, debug: bool = False):
         """Create a single logger instance if it doesn't already exist."""
         if cls._instance is None:
             print("Initialized logger...")
@@ -55,10 +53,6 @@ class Logger:
             log_format = "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s"
             date_format = "%Y-%m-%d %H:%M:%S"
 
-            # Load config (to determine debug mode)
-            config = get_config()
-            DEBUG_MODE = config.get("DEBUG_MODE", False)
-
             # Console handler
             console_handler = logging.StreamHandler()
             console_handler.setFormatter(logging.Formatter(log_format, datefmt=date_format))
@@ -74,7 +68,7 @@ class Logger:
 
             # Avoid adding duplicate handlers if this logger is re-imported
             if not root_logger.handlers:
-                root_logger.setLevel(logging.DEBUG if DEBUG_MODE else logging.INFO)
+                root_logger.setLevel(logging.DEBUG if debug else logging.INFO)
                 root_logger.addHandler(console_handler)
                 root_logger.addHandler(file_handler)
 

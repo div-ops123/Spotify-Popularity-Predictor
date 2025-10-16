@@ -12,8 +12,6 @@ from pathlib import Path
 
 from src.utils.logger import Logger
 
-logger = Logger().get_logger(__name__)
-
 
 def get_config() -> dict:
     """Load configuration from the `configs/config.yaml` file.
@@ -47,6 +45,9 @@ def get_config() -> dict:
     return config
 
 
+config = get_config()
+DEBUG_MODE = config.get("DEBUG_MODE", False)
+logger = Logger(debug=DEBUG_MODE).get_logger(__name__)
 
 # -------------------------------------------------------------------
 # 1. Load CSV
