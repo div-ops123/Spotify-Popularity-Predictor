@@ -56,7 +56,7 @@ A machine learning project built with linear regression to predict song populari
 preprocess_data.py = chef (uses the tools to clean the full dataset)
 
 ```bash
-python src/data/preprocess_data.py
+python -m src.data.preprocess_data
 ```
 
 This will:

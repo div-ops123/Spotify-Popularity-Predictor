@@ -1,5 +1,3 @@
-# This script is the entry point for running preprocessing in production or CI/CD pipelines.
-
 """
 data/preprocess_data.py
 =======================
@@ -17,75 +15,56 @@ Usage (example):
     python src/data/preprocess_data.py
 """
 
-import pandas as pd
 from src.utils.logger import Logger
-from src.utils.helper import load_csv, save_csv
+from src.utils.helper import load_csv, save_csv, get_config, save_pickle
 
 from src.utils.preprocessing import clean_dataset_pipeline
 
-logger = Logger.get_logger(__name__)
-
-
-
-# -----------------------------------------------------------------------------
-# 1. Load Raw Data
-# -----------------------------------------------------------------------------
-def load_raw_data(file_path: str) -> pd.DataFrame:
-    """
-    Load raw dataset from the given file path.
-
-    Args:
-        file_path (str): Path to the raw CSV file.
-
-    Returns:
-        pd.DataFrame: Loaded dataset.
-    """
-    return load_csv(file_path)
+config = get_config()
+logger = Logger(debug=config.get("DEBUG_MODE")).get_logger(__name__)
 
 
 # -----------------------------------------------------------------------------
-# 2. Save Clean Data
-# -----------------------------------------------------------------------------
-def save_clean_data(df: pd.DataFrame, save_path: str) -> None:
-    """
-    Save cleaned dataset to disk.
-
-    Args:
-        df (pd.DataFrame): Cleaned dataset.
-        save_path (str): Destination file path.
-    """
-    save_csv(df, save_path)
-
-
-# -----------------------------------------------------------------------------
-# 3. Main Orchestration
+# 1. Main Orchestration
 # -----------------------------------------------------------------------------
 def main():
     """
     Run the full preprocessing pipeline.
 
     Steps:
-      2. Load raw dataset.
-      3. Run cleaning pipeline.
-      4. Save processed dataset.
-    """
-    raw_path = "data/raw/spotify_raw.csv"
-    save_path = "data/processed/spotify_clean.csv"
+      1. Load raw dataset.
+      2. Run cleaning pipeline.
+      3. Save processed dataset and preprocessing artifacts.
+    """  
+    raw_path = config["data"]["processed"]["combined"]
+    save_path = config['data']['processed']['clean']
 
-    df_raw = load_raw_data(raw_path)
+    df_raw = load_csv(raw_path)
+    logger.info("Calling `clean_dataset_pipeline`...")
+    df_clean, transformers, feature_columns = clean_dataset_pipeline(df_raw)
 
-    exclude_columns = ['artist_name', 'track_name', 'track_id'] # ??
+    # Save cleaned dataser
+    save_csv(df_clean, save_path)
 
-    df_clean, feature_columns = clean_dataset_pipeline(df_raw, exclude_columns)
+    # Save scalers (StandardScaler + MinMaxScaler)
+    scaler_bundle = {
+        "scaler": transformers["scaler"],
+        "minmax": transformers["minmax"]
+    }
+    save_pickle(scaler_bundle, config["artifacts"]["scalers"])
 
-    save_clean_data(df_clean, save_path)
+    # Save encoder
+    save_pickle(transformers["encoder"], config["artifacts"]["encoders"])
+
 
     logger.info(f"Final dataset shape: {df_clean.shape}")
     logger.info(f"Feature columns used: {len(feature_columns)}")
+    logger.info("Preprocessing completed and artifacts saved successfully.")
+
 
 
 # -----------------------------------------------------------------------------
-# 4. Entry Point
+# 2. Entry Point
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
     main()

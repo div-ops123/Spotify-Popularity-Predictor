@@ -7,6 +7,7 @@ Currently includes configuration loading utilities.
 
 import os
 import yaml
+import pickle
 import pandas as pd
 from pathlib import Path
 
@@ -109,4 +110,55 @@ def save_csv(df: pd.DataFrame, path: str) -> None:
         logger.info(f"✅ Saved CSV: {path} ({df.shape[0]} rows, {df.shape[1]} columns)")
     except Exception as e:
         logger.exception(f"❌ Error saving CSV to {path}: {str(e)}")
+        raise
+
+
+
+def save_pickle(obj: object, filepath: str) -> None:
+    """
+    Save a Python object to disk using pickle.
+
+    Args:
+        obj (object): The Python object to serialize (e.g., scalers, encoders, models).
+        filepath (str): Path where the pickle file will be saved.
+
+    Raises:
+        OSError: If the file cannot be written due to permission or path errors.
+    """
+    try:
+        path = Path(filepath)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with open(path, "wb") as f:
+            pickle.dump(obj, f)
+        logger.info(f"Object saved successfully at: {path}")
+    except Exception as e:
+        logger.error(f"Failed to save pickle file at {filepath}: {e}")
+        raise
+
+
+def load_pickle(filepath: str) -> object:
+    """
+    Load a pickled Python object from disk.
+
+    Args:
+        filepath (str): Path to the pickle file.
+
+    Returns:
+        object: The loaded Python object.
+
+    Raises:
+        FileNotFoundError: If the pickle file does not exist.
+        OSError: If reading or unpickling fails.
+    """
+    try:
+        path = Path(filepath)
+        if not path.exists():
+            raise FileNotFoundError(f"Pickle file not found at {filepath}")
+
+        with open(path, "rb") as f:
+            obj = pickle.load(f)
+        logger.info(f"Object loaded successfully from: {path}")
+        return obj
+    except Exception as e:
+        logger.error(f"Failed to load pickle file at {filepath}: {e}")
         raise
