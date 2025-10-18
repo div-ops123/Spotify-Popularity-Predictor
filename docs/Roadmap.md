@@ -27,7 +27,7 @@
 - [ ] Save processed: Export to `data/processed/train.csv` and `test.csv`. Commit data folder (or .gitignore large files, upload separately).
 
 #### Phase 3: Exploratory Data Analysis (EDA) (1-2 Days)
-- [ ] Univariate: Histograms/boxplots for features (e.g., seaborn.distplot for danceability); target dist (popularity skewed? Log-transform?).
+- [ ] Univariate: Histograms/boxplots for features.
 - [ ] Bivariate: Correlation heatmap (sns.heatmap), scatterplots (e.g., tempo vs. popularity colored by genre).
 - [ ] Multivariate: Pairplot for top 5 features; groupby genre for insights (e.g., avg popularity by explicit).
 - [ ] Insights doc: Notebook section with 3-5 key findings (e.g., "Valence >0.7 correlates with 20% higher pop"). Viz saved as PNGs.
@@ -88,6 +88,41 @@ Engineer features — normalize and encode relevant columns for linear regressio
 ## ✅ Phase 3: EDA (Exploratory Data Analysis)
 ## ✅ Phase 4: Modeling
 ## ✅ Phase 5: Evaluation & Iteration
+
+---
+
+### 1️⃣ Modeling (Training Script) — src/models/train_model.py
+
+Purpose:
+This is where the machine learns.
+It takes your cleaned data → splits it → fits the model → saves the trained .pkl.
+
+You only run this when you want to (re)train your model.
+
+**WHy:**
+When you improve data, add new features, or tune hyperparameters — you’ll re-run this script to update your trained model.
+
+---
+
+### 2️⃣ Evaluation Script — src/models/evaluate_model.py
+
+**Purpose:**
+This checks how good your model actually is — on unseen data.
+
+You use it after training, or later when comparing multiple models.
+
+**Why:**
+You don’t want to just train — you want to prove that your model performs well and track that performance.
+
+---
+
+### 3️⃣ Iteration Script — src/models/experiment_runner.py (optional)
+
+Purpose:
+Automate trying different models or parameters to find the best one.
+
+**Why:**
+Instead of manually re-running notebooks, you can loop through model types and save the one that performs best — perfect for reproducible experiments.
 
 ---
 
